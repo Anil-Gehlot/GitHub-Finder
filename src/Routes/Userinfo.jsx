@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Tabs from "../components/Tabs";
 import Repo from "../components/Repo";
-import Loading from "../components/Loading"
+import Loading from "../components/Loading";
 import Followers from "../components/Followers";
 import Footer from "../components/Footer";
 
@@ -27,11 +27,11 @@ const Userinfo = () => {
 
   async function GetUrls() {
     setLoading(true);
-    
+
     const res = await fetch(BaseUrl + pathname + `/${type}`);
     const data = await res.json();
     setInfos(data);
-    setLoading(null)
+    setLoading(null);
   }
 
   useEffect(() => {
@@ -80,18 +80,21 @@ const Userinfo = () => {
                 {""} {uinfo?.public_repos}
               </h1>
 
-              {uinfo?.location && <h1>
-                <span className="text-teal-400 ">location </span>:{""}{" "}
-                {uinfo?.location}
-              </h1>}
+              {uinfo?.location && (
+                <h1>
+                  <span className="text-teal-400 ">location </span>:{""}{" "}
+                  {uinfo?.location}
+                </h1>
+              )}
 
-              {uinfo?.bio && <h1>
-                <span className="text-teal-400 ">bio </span>:{""}{" "}
-                {uinfo?.bio}
-              </h1>}
+              {uinfo?.bio && (
+                <h1>
+                  <span className="text-teal-400 ">bio </span>:{""} {uinfo?.bio}
+                </h1>
+              )}
 
               <h1>
-                <span className="text-teal-400 ">Joined on  </span>:{""}{" "}
+                <span className="text-teal-400 ">Joined on </span>:{""}{" "}
                 {new Date(uinfo?.created_at).toLocaleDateString()}
               </h1>
 
@@ -110,24 +113,25 @@ const Userinfo = () => {
         <Tabs type={type} setType={setType} />
       </div>
 
-        {loading && <Loading />}
+      {loading && <Loading />}
 
-        { type === "repos" && (
-          <div className="grid md:grid-cols-2 grid-cols-1 gap-7 w-10/12 mx-auto " >
-            {
-              infos && <Repo repos={infos} />
-            }
-          </div>
-        )}
+      {type === "repos" && (
+        <div className="grid md:grid-cols-2 grid-cols-1 gap-7 w-10/12 mx-auto ">
+          {infos && <Repo repos={infos} />}
+        </div>
+      )}
 
-        { type === "followers" && (
-          <div>
-             <Followers userData={infos}/>
-          </div>
-        )}
+      {type === "followers" && (
+        <div>
+          <Followers userData={infos} />
+        </div>
+      )}
 
-        
-        <Footer  />
+      <h2 className="flex  items-center justify-center text-xl font-semibold mt-11">
+        For more information, please visit the profile...
+      </h2>
+
+      <Footer />
     </div>
   );
 };
